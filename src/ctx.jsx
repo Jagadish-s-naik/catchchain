@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
-import {getSession, setSession, clearSession, getStoredLang, setStoredLang, onDateChange} from './data.js';
+import {getSession, setSession, clearSession, getStoredLang, setStoredLang, onDataChange} from './data.js';
 import {t as translate} from './i18n.js';
 
 const AppContext = createContext(null);

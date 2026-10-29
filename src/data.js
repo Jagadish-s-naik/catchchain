@@ -78,12 +78,12 @@ export  function resolveDispute(dispId, note){
     const dList = getDisputes(), d = dList.find((x) => x.id === dispId); if (!d) return;
     d.status = 'resolved'; d.note = note; ss(k.DISPUTES, dList);
     const open = dList.filter((x) => x.handoverId === d.handoverId &&x.status === 'open');
-    if (open.length === 0) {const hl = getHandovers(), h = hl.find((x) => x.id === d.handoverId); if (h && h.status === 'disputed') {h.status = 'resolved'; ss(k.HANDOVERS,h1); }}
+    if (open.length === 0) {const hl = getHandovers(), h = hl.find((x) => x.id === d.handoverId); if (h && h.status === 'disputed') {h.status = 'resolved'; ss(k.HANDOVERS, hl); }}
     notify();
 }
 
 
-export function tamperHandover(id) { const list = getHandovers(), h = list.find((x) => x.id === id ); if (!h) return null; h.kgSent += 10; ss(K.HANDOVERS, list); notify() ; return h; }
+export function tamperHandover(id) { const list = getHandovers(), h = list.find((x) => x.id === id ); if (!h) return null; h.kgSent += 10; ss(k.HANDOVERS, list); notify() ; return h; }
 
 export function seed(){
     if (sg(k.VERSION) === VER && getParties().length > 0) return;
@@ -115,11 +115,11 @@ export function seed(){
 
     const  b2 = mk('CB-1002', 'Mackerel', 'Panambur', t(72), 150, 95, 'P02');
     const  h5r = co(ho('HO-2005', b2, [], 'P02' , 'P05', 100, 95, true, true, t(70)), 94, 95, false, t(65)); 
-    const  d1 = { id: 'DP-001', handoverId: 'HO-2005', batchId: 'CB-1002', type: 'weight', expected: 100, actual: 94, diffpct: 6, iceAgreed: false, status: 'open', note: '', createdAt: t(65)};
+    const  d1 = { id: 'DP-001', handoverId: 'HO-2005', batchId: 'CB-1002', type: 'weight', expected: 100, actual: 94, diffPct: 6, iceAgreed: false, status: 'open', note: '', createdAt: t(65)};
 
     const b3 = mk('CB-1003', 'Seer', 'Bunder', t(96), 80, 420, 'P01');
     const h6r = co(ho('HO-2006', b3, [], 'P01','P03', 80, 420, false, false, t(94)), 80, 380, false, t(90));
-    const d2 = {id: 'DP-002', handoverId: 'HO-2006', batchId: 'CB-1003' , type: 'price', expected: 420,  actual: 380, diffpct: 9.5 ,  iceAgreed: true, status:  'open', note: '', createdAt: t(90)};
+    const d2 = {id: 'DP-002', handoverId: 'HO-2006', batchId: 'CB-1003' , type: 'price', expected: 420,  actual: 380, diffPct: 9.5 ,  iceAgreed: true, status:  'open', note: '', createdAt: t(90)};
     const h7r = co(ho('HO-2007', b3, [h6r], 'P03' , 'P04', 80, 400, false,false, t(88)),  79,  400, false, t(50));
 
     const b4 =   mk('CB-1004', 'Ribbonfish' ,  'Panambur', t(10), 60, 110,  'P02');
@@ -138,3 +138,18 @@ export function seed(){
 
 
 
+
+export const saveBatch = (b) => ls(k.BATCHES, b);
+
+export function markHandoverPaid(id, paid = true) {
+  const list = getHandovers(), h = list.find((x) => x.id === id);
+  if (!h) return null;
+  h.paid = paid; h.paidAt = paid ? Date.now() : null;
+  ss(k.HANDOVERS, list); notify(); return h;
+}
+
+export function resetDemo() {
+  [k.VERSION, k.PARTIES, k.BATCHES, k.HANDOVERS, k.DISPUTES].forEach((key) => localStorage.removeItem(key));
+  _bn = null; _hn = null;
+  seed();
+}

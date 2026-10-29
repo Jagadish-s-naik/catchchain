@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import {useApp} from '../ctx.jsx';
 import {createBatch, generateQrDataUrl, buildBatchQrUrl, getHandoversByBatch, getParties} from '../data.js';
-import {Field, Numpad, Icon} from '../ui.jsx';
+import {Field, NumPad, Icon} from '../ui.jsx';
 import {SPECIES,HARBOURS } from '../chain.js';
 
 export default function Landing() {
@@ -62,7 +62,7 @@ export default function Landing() {
                 </button>
                 <div className='card'>
                     <h3 style={{marginBottom: '1rem'}}>{t('kgLabel')}</h3>
-                    <Numpad value={kg} onChange={setKg} />
+                    <NumPad value={kg} onChange={setKg} />
                     <button type='button' id="kg-done-btn" className='btn btn-primary btn-full' style={{marginTop: '1rem'}} onClick={() => setStep('form')}>{t('close')}</button>
 
                 </div>
@@ -78,7 +78,7 @@ export default function Landing() {
                 </button>
                 <div className='card'>
                     <h3 style={{marginBottom: '1rem'}}>{t('priceLabel')}</h3>
-                    <Numpad value={price} onChange={setPrice} />
+                    <NumPad value={price} onChange={setPrice} />
                     <button type='button' id="price-done-btn" className='btn btn-primary btn-full' style={{marginTop: '1rem'}} onClick={() => setStep('form')}>{t('close')}</button>
 
                 </div>
